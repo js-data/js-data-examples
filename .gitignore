@@ -1,0 +1,10 @@
+node_modules/
+bower_components/
+
+.idea/
+
+*.iml
+
+coverage/
+
+rethinkdb/
