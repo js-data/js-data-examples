@@ -85,7 +85,7 @@ exports.createServer = function () {
     app.use(session({ secret: 'keyboard cat' }));
     app.use(passport.initialize());
     app.use(passport.session());
-    app.use(express.static(path.join(__dirname, config.PUBLIC)));
+    app.use(express.static(path.join(__dirname, process.env.PUBLIC || config.PUBLIC)));
 
     // app settings
     app.enable('trust proxy');
@@ -146,7 +146,7 @@ exports.createServer = function () {
   });
 };
 
-if (module === require.main || process.NODE_ENV === 'prod') {
+if (module === require.main || process.env.NODE_ENV === 'prod') {
   var app = exports.createServer();
   var server = http.createServer(app);
   var config = container.get('config');

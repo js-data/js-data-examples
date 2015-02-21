@@ -16,7 +16,7 @@ TODO
 
 ## Frontend Examples
 
-- [ ] - [js-data + js-data-angular + Angular.js]()
+- [ ] - [js-data + js-data-angular + Angular.js](https://github.com/js-data/js-data-examples/tree/master/client/angular)
 - [ ] - [js-data + js-data-angular + js-data-localforage + Angular.js]()
 - [ ] - [js-data + js-data-angular + js-data-localstorage + Angular.js]()
 - [ ] - [js-data + js-data-angular + js-data-firebase + Angular.js]()
@@ -27,7 +27,7 @@ TODO
 
 ## Backend Examples
 
-- [ ] - [js-data + js-data-rethinkdb + Express.js]()
+- [ ] - [js-data + js-data-rethinkdb + Express.js](https://github.com/js-data/js-data-examples/tree/master/server/rethinkdb)
 - [ ] - [js-data + js-data-rethinkdb + js-data-redis + Express.js]()
 - [ ] - [js-data + js-data-mongodb + Express.js]()
 - [ ] - [js-data + js-data-sql + Express.js + MySQL]()
