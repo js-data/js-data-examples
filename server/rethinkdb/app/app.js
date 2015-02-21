@@ -79,7 +79,6 @@ exports.createServer = function () {
     app.use(cookieParser());
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(methodOverride());
-    console.log(path.join(__dirname, config.PUBLIC));
     app.set('views', path.join(__dirname, config.PUBLIC));
     app.set('view engine', 'ejs');
     app.engine('html', require('ejs').renderFile);
@@ -118,6 +117,14 @@ exports.createServer = function () {
       .get(safeCall(posts.findOneById))
       .put(ensureAuthenticated, safeCall(posts.updateOneById))
       .delete(ensureAuthenticated, safeCall(posts.deleteOneById));
+
+    app.get('/api/users/loggedInUser', function (req, res) {
+      if (req.isAuthenticated()) {
+        return res.json(req.user);
+      } else {
+        res.send();
+      }
+    });
 
     app.get('/auth/github', passport.authenticate('github'));
     app.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/login' }), function (req, res) {

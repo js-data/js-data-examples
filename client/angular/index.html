@@ -3,16 +3,72 @@
 <head>
   <base href="/">
   <meta charset="utf-8">
-  <title>js-data</title>
+  <title>js-data + Angular</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
   <meta name="fragment" content="!"/>
   <meta name="Description" content="js-data example app"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" type="text/css" href="css/codetrain.css">
-
+  <link href="http://bootswatch.com/yeti/bootstrap.css" rel="stylesheet" type="text/css"/>
+  <link href="http://bootswatch.com/assets/css/bootswatch.min.css" rel="stylesheet" type="text/css"/>
   <link rel="shortcut icon" href="/favicon.ico">
 </head>
 <body>
-It works!
+<div class="container">
+  <div class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <a href="/" class="navbar-brand">js-data + Angular Example</a>
+        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <div class="navbar-collapse collapse" id="navbar-main">
+        <ul class="nav navbar-nav">
+          <li data-ng-class="{ active: !path }">
+            <a href="/">Home</a>
+          </li>
+          <li data-ng-class="{ active: path === 'posts' }">
+            <a href="/posts">Posts</a>
+          </li>
+          <li data-ng-if="!loggedInUser">
+            <a href="" data-ng-click="login()">Login with Github</a>
+          </li>
+          <li data-ng-if="loggedInUser">
+            <a href="">Hi <strong data-ng-bind="loggedInUser.displayName || loggedInUser.username"></strong>!</a>
+          </li>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a href="https://github.com/js-data/js-data-examples" target="_blank">Code on Github</a>
+          </li>
+          <li>
+            <a href="https://groups.io/org/groupsio/jsdata" target="_blank">Mailing List</a>
+          </li>
+          <li>
+            <a href="https://www.js-data.io" target="_blank">js-data.io</a>
+          </li>
+        </ul>
+
+      </div>
+    </div>
+  </div>
+  <div class="container" data-ng-view></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular-route.min.js"></script>
+<script src="https://github.com/js-data/js-data/releases/download/1.3.0/js-data.min.js"></script>
+<script src="https://github.com/js-data/js-data-angular/releases/download/2.1.0/js-data-angular.min.js"></script>
+<script src="app.js"></script>
+<script src="models/post.model.js"></script>
+<script src="models/user.model.js"></script>
+<script src="routes/home/home.js"></script>
+<script src="routes/posts/posts.js"></script>
+<script src="routes/posts/posts.controller.js"></script>
+<script src="routes/posts/newPost.controller.js"></script>
 </body>
 </html>
