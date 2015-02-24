@@ -6,6 +6,7 @@ module.exports = function () {
     var responder;
     if (err && req) {
       if (res) {
+        // Normally you would be using some logging library
         console.log(err.message);
         console.log(err.stack);
       }

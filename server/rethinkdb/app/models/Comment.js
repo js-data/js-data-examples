@@ -8,10 +8,6 @@ module.exports = function (r, container, Promise, mout, messageService, config, 
     table: 'comment',
     relations: {
       belongsTo: {
-        user: {
-          localField: 'user',
-          localKey: 'ownerId'
-        },
         post: {
           localField: 'post',
           localKey: 'ownerId'
@@ -24,7 +20,6 @@ module.exports = function (r, container, Promise, mout, messageService, config, 
         nullable: false
       },
       ownerId: {
-        type: 'string',
         nullable: false
       },
       id: {

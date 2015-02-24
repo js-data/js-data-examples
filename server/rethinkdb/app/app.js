@@ -8,15 +8,18 @@ var GitHubStrategy = require('passport-github').Strategy;
 var path = require('path');
 var container = require('./container');
 
+// This allows us to programmatically start the app in a test environment
 exports.createServer = function () {
+
+  // Bootstrap the application, injecting a bunch of dependencies
   return container.resolve(function (safeCall, posts, comments, errorHandler, queryRewrite, passport, config) {
     var app = express();
 
     // Simple route middleware to ensure user is authenticated.
-    //   Use this route middleware on any resource that needs to be protected.  If
-    //   the request is authenticated (typically via a persistent login session),
-    //   the request will proceed.  Otherwise, the user will be redirected to the
-    //   login page.
+    // Use this route middleware on any resource that needs to be protected.  If
+    // the request is authenticated (typically via a persistent login session),
+    // the request will proceed.  Otherwise, the user will be redirected to the
+    // login page.
     function ensureAuthenticated(req, res, next) {
       if (req.isAuthenticated()) {
         return next();
@@ -35,12 +38,12 @@ exports.createServer = function () {
     }
 
     // Passport session setup.
-    //   To support persistent login sessions, Passport needs to be able to
-    //   serialize users into and deserialize users out of the session.  Typically,
-    //   this will be as simple as storing the user ID when serializing, and finding
-    //   the user by ID when deserializing.  However, since this example does not
-    //   have a database of user records, the complete GitHub profile is serialized
-    //   and deserialized.
+    // To support persistent login sessions, Passport needs to be able to
+    // serialize users into and deserialize users out of the session.  Typically,
+    // this will be as simple as storing the user ID when serializing, and finding
+    // the user by ID when deserializing.  However, since this example does not
+    // have a database of user records, the complete GitHub profile is serialized
+    // and deserialized.
     passport.serializeUser(function (user, done) {
       done(null, user);
     });
@@ -49,12 +52,10 @@ exports.createServer = function () {
       done(null, obj);
     });
 
-    /**
-     * Use the GitHubStrategy within Passport.
-     * Strategies in Passport require a `verify` function, which accept
-     * credentials (in this case, an accessToken, refreshToken, and GitHub
-     * profile), and invoke a callback with a user object.
-     */
+    // Use the GitHubStrategy within Passport.
+    // Strategies in Passport require a `verify` function, which accept
+    // credentials (in this case, an accessToken, refreshToken, and GitHub
+    // profile), and invoke a callback with a user object.
     passport.use(new GitHubStrategy({
         clientID: config.GITHUB_CLIENT_ID,
         clientSecret: config.GITHUB_CLIENT_SECRET,
@@ -79,13 +80,18 @@ exports.createServer = function () {
     app.use(cookieParser());
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(methodOverride());
-    app.set('views', path.join(__dirname, config.PUBLIC));
+
+    // I'm only using Express to render/serve the index.html file and other static assets for simplicity with the example apps
+    app.set('views', path.join(__dirname, process.env.PUBLIC_PATH || config.PUBLIC_PATH));
     app.set('view engine', 'ejs');
     app.engine('html', require('ejs').renderFile);
+
+    // Using Express/Passports for simplicity in the example. I would never use this in production.
     app.use(session({ secret: 'keyboard cat' }));
     app.use(passport.initialize());
     app.use(passport.session());
-    app.use(express.static(path.join(__dirname, process.env.PUBLIC || config.PUBLIC)));
+    // PUBLIC_PATH is used to choose with frontend client to use. Default is the js-data + Angular client.
+    app.use(express.static(path.join(__dirname, process.env.PUBLIC_PATH || config.PUBLIC_PATH)));
 
     // app settings
     app.enable('trust proxy');
@@ -126,6 +132,12 @@ exports.createServer = function () {
       }
     });
 
+    // Normally I would have a bunch of user-related routes, but I'm
+    // just using Passport.js + Github for simplicity in the example
+
+    /*******************************/
+    /*********** auth **************/
+    /*******************************/
     app.get('/auth/github', passport.authenticate('github'));
     app.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/login' }), function (req, res) {
       res.redirect('/');
@@ -134,10 +146,18 @@ exports.createServer = function () {
       req.logout();
       res.redirect('/');
     });
+    app.post('/api/socket.io/', function (req, res, next) {
+      next();
+    });
 
-    // redirect all others to the index (HTML5 history)
-    app.get('*', renderIndex);
+    // Redirect all others to the index (HTML5 history)
+    app.get('*', function (req, res, next) {
+      if (req.originalUrl.indexOf('socket.io') === -1) {
+        renderIndex(req, res, next);
+      }
+    });
 
+    // Catch-all error handler
     app.use(function (err, req, res, next) {
       errorHandler(err, req, res, next);
     });
@@ -146,6 +166,7 @@ exports.createServer = function () {
   });
 };
 
+// This allows us to programmatically start the app in a test environment
 if (module === require.main || process.env.NODE_ENV === 'prod') {
   var app = exports.createServer();
   var server = http.createServer(app);
@@ -153,6 +174,7 @@ if (module === require.main || process.env.NODE_ENV === 'prod') {
 
   server.listen(config.PORT);
 
+  // Add a socket server to be used as a message bus for the clients
   var io = require('socket.io').listen(server);
 
   container.register('io', function () {

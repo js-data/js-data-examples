@@ -1,3 +1,5 @@
+// Our service for broadcasting messages to connected clients.
+// A way of implementing a sort of "3-way binding"
 module.exports = function (container) {
 
   function sendMessage(event, resource, instance) {

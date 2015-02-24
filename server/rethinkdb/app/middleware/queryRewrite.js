@@ -1,3 +1,4 @@
+// This is to fully parse the JSON in req.query
 module.exports = function () {
   return function (req, res, next) {
     if (req.query.where) {

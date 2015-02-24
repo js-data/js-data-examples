@@ -1,3 +1,4 @@
+// This little generator simply saves us a lot of boilerplate code
 module.exports = function (Promise) {
   function safeCall(method) {
     return function (req, res, next) {
