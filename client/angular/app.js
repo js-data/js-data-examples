@@ -4,9 +4,6 @@ angular.module('app', ['ngRoute', 'js-data'])
     $locationProvider.html5Mode(true).hashPrefix('!');
   })
   .run(function ($rootScope) {
-    $rootScope.login = function () {
-      window.location = '/auth/github';
-    };
     $rootScope.$on('$routeChangeSuccess', function ($event, next) {
       $rootScope.path = next.$$route.originalPath.substr(1).split('/')[0];
     });
