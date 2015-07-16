@@ -12,3 +12,6 @@ rethinkdb_data/
 local.config.js
 
 server/sql/.git/
+
+node_modules
+public/
