@@ -1,23 +1,17 @@
 {
   "name": "js-data-sql-example",
-  "description": "js-data + js-data-sql.",
+  "description": "js-data + js-data-sql",
   "version": "1.1.0",
   "homepage": "http://www.js-data.io/docs/dssqladapter",
   "repository": {
     "type": "git",
-    "url": "https://github.com/js-data/js-data-sql.git"
+    "url": "https://github.com/js-data/js-data-examples.git"
   },
   "author": {
     "name": "Jason Dobry",
     "email": "jason.dobry@gmail.com"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/js-data/js-data-sql/blob/master/LICENSE"
-    }
-  ],
-  "main": "./src/index.js",
+  "license": "MIT",
   "keywords": [
     "data",
     "datastore",

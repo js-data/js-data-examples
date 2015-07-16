@@ -1,57 +1,27 @@
-module.exports = function (r, container, Promise, mout, messageService, config, DS) {
+module.exports = function (container, Promise, mout, messageService, config, DS) {
   if (DS.definitions.comment) {
     return DS.definitions.comment;
   }
 
   return DS.defineResource({
     name: 'comment',
-    table: 'comment',
+    table: 'comments',
     relations: {
       belongsTo: {
+        user: {
+          localField: 'user',
+          localKey: 'owner_id'
+        },
         post: {
           localField: 'post',
-          localKey: 'ownerId'
+          localKey: 'post_id'
         }
       }
     },
-    schema: {
-      postId: {
-        type: 'string',
-        nullable: false
-      },
-      ownerId: {
-        nullable: false
-      },
-      id: {
-        nullable: true
-      },
-      body: {
-        type: 'string',
-        maxLength: 5000,
-        nullable: false
-      },
-      created: {
-        nullable: true
-      },
-      updated: {
-        nullable: true
-      }
-    },
-    beforeValidate: function (Comment, comment, cb) {
-      Comment.schema.stripNonSchemaAttrs(comment);
-      cb(null, comment);
-    },
-
     beforeCreate: function (Comment, comment, cb) {
-      comment.created = r.now();
-      comment.updated = r.now();
-      Comment.schema.validate(comment, function (err) {
-        if (err) {
-          return cb(err);
-        } else {
-          return cb(null, comment);
-        }
-      });
+      comment.created_at = new Date();
+      comment.updated_at = new Date();
+      return cb(null, comment);
     },
 
     afterCreate: function (Comment, comment, cb) {
@@ -62,14 +32,8 @@ module.exports = function (r, container, Promise, mout, messageService, config, 
     },
 
     beforeUpdate: function (Comment, comment, cb) {
-      comment.updated = r.now();
-      Comment.schema.validate(comment, function (err) {
-        if (err) {
-          return cb(err);
-        } else {
-          return cb(null, comment);
-        }
-      });
+      comment.updated_at = new Date();
+      return cb(null, comment);
     },
 
     afterUpdate: function (Comment, comment, cb) {

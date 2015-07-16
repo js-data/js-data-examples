@@ -43,7 +43,6 @@ container.register('passport', function () {
 
 // Create and register a js-data-sql adapter with the container
 container.register('sqlAdapter', function (config) {
-  console.log(JSON.stringify(config, null, 2));
   var DSSqlAdapter = require('js-data-sql');
   return new DSSqlAdapter({
     client: config.DB_CLIENT,
@@ -83,12 +82,7 @@ container.register('DS', function (Promise, container, sqlAdapter) {
     // Here you could set "log" to a function of your own, for
     // debugging or to hook it into your own logging code.
     // You would the same with the "error" option.
-    log: false,
-
-    // This hook will be used by all data store resources
-    validate: function (resource, attrs, cb) {
-      return cb(null, attrs);
-    }
+    log: false
   });
 
   // Register the sql adapter as the default adapter

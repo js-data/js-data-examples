@@ -12,7 +12,7 @@ var container = require('./container');
 exports.createServer = function () {
 
   // Bootstrap the application, injecting a bunch of dependencies
-  return container.resolve(function (safeCall, posts, comments, errorHandler, queryRewrite, passport, config) {
+  return container.resolve(function (User, safeCall, users, posts, comments, errorHandler, queryRewrite, passport, config) {
     var app = express();
 
     // Simple route middleware to ensure user is authenticated.
@@ -62,14 +62,24 @@ exports.createServer = function () {
         callbackURL: config.GITHUB_CALLBACK_URL
       },
       function (accessToken, refreshToken, profile, done) {
-        // asynchronous verification, for effect...
-        process.nextTick(function () {
-
-          // To keep the example simple, the user's GitHub profile is returned to
-          // represent the logged-in user.  In a typical application, you would want
-          // to associate the GitHub account with a user record in your database,
-          // and return that user instead.
-          return done(null, profile);
+        User.findAll({
+          github_id: profile.id
+        }).then(function (users) {
+          if (users.length) {
+            return users[0];
+          } else {
+            return User.create({
+              username: profile.username,
+              avatar_url: profile._json.avatar_url,
+              github_id: profile.id,
+              name: profile.displayName,
+              created_at: new Date()
+            });
+          }
+        }).then(function (user) {
+          return done(null, user);
+        }).catch(function (err) {
+          done(err);
         });
       }
     ));
@@ -82,7 +92,7 @@ exports.createServer = function () {
     app.use(methodOverride());
 
     // I'm only using Express to render/serve the index.html file and other static assets for simplicity with the example apps
-    app.set('views', path.join(__dirname, process.env.PUBLIC_PATH || config.PUBLIC_PATH));
+    app.set('views', path.resolve(config.PUBLIC_PATH));
     app.set('view engine', 'ejs');
     app.engine('html', require('ejs').renderFile);
 
@@ -91,7 +101,7 @@ exports.createServer = function () {
     app.use(passport.initialize());
     app.use(passport.session());
     // PUBLIC_PATH is used to choose with frontend client to use. Default is the js-data + Angular client.
-    app.use(express.static(path.join(__dirname, process.env.PUBLIC_PATH || config.PUBLIC_PATH)));
+    app.use(express.static(path.resolve(config.PUBLIC_PATH)));
 
     // app settings
     app.enable('trust proxy');
@@ -108,7 +118,6 @@ exports.createServer = function () {
       .post(ensureAuthenticated, safeCall(comments.createOne));
 
     app.route('/api/comments/:id')
-      .get(safeCall(comments.findOneById))
       .put(ensureAuthenticated, safeCall(comments.updateOneById))
       .delete(ensureAuthenticated, safeCall(comments.deleteOneById));
 
@@ -124,6 +133,9 @@ exports.createServer = function () {
       .put(ensureAuthenticated, safeCall(posts.updateOneById))
       .delete(ensureAuthenticated, safeCall(posts.deleteOneById));
 
+    /*******************************/
+    /********** users **************/
+    /*******************************/
     app.get('/api/users/loggedInUser', function (req, res) {
       if (req.isAuthenticated()) {
         return res.json(req.user);
@@ -131,6 +143,12 @@ exports.createServer = function () {
         res.send();
       }
     });
+
+    app.route('/api/users')
+      .get(safeCall(users.findAll));
+
+    app.route('/api/users/:id')
+      .get(safeCall(users.findOneById));
 
     // Normally I would have a bunch of user-related routes, but I'm
     // just using Passport.js + Github for simplicity in the example
