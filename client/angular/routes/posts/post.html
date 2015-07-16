@@ -1,0 +1,7 @@
+<div class="post">
+  <h1 class="page-header">
+    {{ PostCtrl.post.title }}
+    <small data-ng-bind="PostCtrl.post.created | date:'shortDate'"></small>
+  </h1>
+  <div data-ng-bind="PostCtrl.post.body"></div>
+</div>

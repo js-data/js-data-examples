@@ -1,11 +1,22 @@
-angular.module('app')
-  .factory('User', function ($rootScope, $q, DS, DSHttpAdapter) {
-    var User = DS.defineResource({
-      name: 'user',
-      endpoint: 'users'
-    });
+angular.module('app').factory('User', function ($rootScope, $q, DS, DSHttpAdapter) {
+  var User = DS.defineResource({
+    name: 'user',
+    endpoint: 'users',
+    relations: {
+      hasMany: {
+        post: {
+          localField: 'posts',
+          foreignKey: 'owner_id'
+        },
+        comment: {
+          localField: 'comments',
+          foreignKey: 'owner_id'
+        }
+      }
+    },
 
-    User.getLoggedInUser = function () {
+    // Static Methods
+    getLoggedInUser: function () {
       var deferred = $q.defer();
 
       if ($rootScope.loggedInUser) {
@@ -36,10 +47,11 @@ angular.module('app')
       }
 
       return deferred.promise;
-    };
+    }
+  });
 
-    return User;
-  })
+  return User;
+})
   .run(function (User) {
     User.getLoggedInUser();
   });

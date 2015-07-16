@@ -12,7 +12,7 @@ var container = require('./container');
 exports.createServer = function () {
 
   // Bootstrap the application, injecting a bunch of dependencies
-  return container.resolve(function (safeCall, posts, comments, errorHandler, queryRewrite, passport, config) {
+  return container.resolve(function (User, safeCall, users, posts, comments, errorHandler, queryRewrite, passport, config) {
     var app = express();
 
     // Simple route middleware to ensure user is authenticated.
@@ -32,24 +32,17 @@ exports.createServer = function () {
         if (err) {
           next(err);
         } else {
-          res.send(html);
+          res.status(200).send(html).end();
         }
       });
     }
 
-    // Passport session setup.
-    // To support persistent login sessions, Passport needs to be able to
-    // serialize users into and deserialize users out of the session.  Typically,
-    // this will be as simple as storing the user ID when serializing, and finding
-    // the user by ID when deserializing.  However, since this example does not
-    // have a database of user records, the complete GitHub profile is serialized
-    // and deserialized.
     passport.serializeUser(function (user, done) {
       done(null, user);
     });
 
-    passport.deserializeUser(function (obj, done) {
-      done(null, obj);
+    passport.deserializeUser(function (user, done) {
+      done(null, user);
     });
 
     // Use the GitHubStrategy within Passport.
@@ -62,14 +55,24 @@ exports.createServer = function () {
         callbackURL: config.GITHUB_CALLBACK_URL
       },
       function (accessToken, refreshToken, profile, done) {
-        // asynchronous verification, for effect...
-        process.nextTick(function () {
-
-          // To keep the example simple, the user's GitHub profile is returned to
-          // represent the logged-in user.  In a typical application, you would want
-          // to associate the GitHub account with a user record in your database,
-          // and return that user instead.
-          return done(null, profile);
+        User.findAll({
+          github_id: profile.id
+        }).then(function (users) {
+          if (users.length) {
+            return users[0];
+          } else {
+            return User.create({
+              username: profile.username,
+              avatar_url: profile._json.avatar_url,
+              github_id: profile.id,
+              name: profile.displayName,
+              created_at: new Date()
+            });
+          }
+        }).then(function (user) {
+          return done(null, user);
+        }).catch(function (err) {
+          done(err);
         });
       }
     ));
@@ -78,20 +81,20 @@ exports.createServer = function () {
     app.use(queryRewrite);
     app.use(bodyParser.json());
     app.use(cookieParser());
-    app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(bodyParser.urlencoded({extended: true}));
     app.use(methodOverride());
 
     // I'm only using Express to render/serve the index.html file and other static assets for simplicity with the example apps
-    app.set('views', path.join(__dirname, process.env.PUBLIC_PATH || config.PUBLIC_PATH));
+    app.set('views', path.resolve(config.PUBLIC_PATH));
     app.set('view engine', 'ejs');
     app.engine('html', require('ejs').renderFile);
 
     // Using Express/Passports for simplicity in the example. I would never use this in production.
-    app.use(session({ secret: 'keyboard cat' }));
+    app.use(session({secret: 'keyboard cat'}));
     app.use(passport.initialize());
     app.use(passport.session());
     // PUBLIC_PATH is used to choose with frontend client to use. Default is the js-data + Angular client.
-    app.use(express.static(path.join(__dirname, process.env.PUBLIC_PATH || config.PUBLIC_PATH)));
+    app.use(express.static(path.resolve(config.PUBLIC_PATH)));
 
     // app settings
     app.enable('trust proxy');
@@ -108,12 +111,11 @@ exports.createServer = function () {
       .post(ensureAuthenticated, safeCall(comments.createOne));
 
     app.route('/api/comments/:id')
-      .get(safeCall(comments.findOneById))
       .put(ensureAuthenticated, safeCall(comments.updateOneById))
       .delete(ensureAuthenticated, safeCall(comments.deleteOneById));
 
     /*******************************/
-    /********** posts **********/
+    /********** posts **************/
     /*******************************/
     app.route('/api/posts')
       .get(safeCall(posts.findAll))
@@ -123,6 +125,15 @@ exports.createServer = function () {
       .get(safeCall(posts.findOneById))
       .put(ensureAuthenticated, safeCall(posts.updateOneById))
       .delete(ensureAuthenticated, safeCall(posts.deleteOneById));
+
+    /*******************************/
+    /********** users **************/
+    /*******************************/
+    app.route('/api/users')
+      .get(safeCall(users.findAll));
+
+    app.route('/api/users/:id')
+      .get(safeCall(users.findOneById));
 
     app.get('/api/users/loggedInUser', function (req, res) {
       if (req.isAuthenticated()) {
@@ -139,7 +150,7 @@ exports.createServer = function () {
     /*********** auth **************/
     /*******************************/
     app.get('/auth/github', passport.authenticate('github'));
-    app.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/login' }), function (req, res) {
+    app.get('/auth/github/callback', passport.authenticate('github', {failureRedirect: '/login'}), function (req, res) {
       res.redirect('/');
     });
     app.post('/api/logout', function (req, res) {
@@ -179,5 +190,46 @@ if (module === require.main || process.env.NODE_ENV === 'prod') {
 
   container.register('io', function () {
     return io;
+  });
+
+  var query = container.get('query');
+
+  query.schema.hasTable('users').then(function (exists) {
+    if (!exists) {
+      return query.schema.createTable('users', function (t) {
+        t.increments('id').primary();
+        t.string('username');
+        t.string('name');
+        t.integer('github_id').unsigned();
+        t.string('avatar_url');
+        t.timestamps();
+      });
+    }
+  }).then(function () {
+    return query.schema.hasTable('posts');
+  }).then(function (exists) {
+    if (!exists) {
+      return query.schema.createTable('posts', function (t) {
+        t.increments('id').primary();
+        t.integer('owner_id').unsigned().references('id').inTable('users');
+        t.string('title');
+        t.text('body');
+        t.timestamps();
+      });
+    }
+  }).then(function () {
+    return query.schema.hasTable('comments');
+  }).then(function (exists) {
+    if (!exists) {
+      return query.schema.createTable('comments', function (t) {
+        t.increments('id').primary();
+        t.integer('post_id').unsigned().references('id').inTable('posts');
+        t.integer('owner_id').unsigned().references('id').inTable('users');
+        t.text('body');
+        t.timestamps();
+      });
+    }
+  }).catch(function (err) {
+    console.log(err);
   });
 }

@@ -1,6 +1,8 @@
 angular.module('app', ['ngRoute', 'js-data'])
   .config(function ($locationProvider, DSHttpAdapterProvider) {
-    DSHttpAdapterProvider.defaults.basePath = '/api';
+    angular.extend(DSHttpAdapterProvider.defaults, {
+      basePath: '/api'
+    });
     $locationProvider.html5Mode(true).hashPrefix('!');
   })
   .run(function ($rootScope) {

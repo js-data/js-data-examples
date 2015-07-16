@@ -6,7 +6,7 @@ module.exports = function (container) {
     var io = container.get('io');
     var message = {
       id: instance.id,
-      ownerId: instance.ownerId,
+      owner_id: instance.owner_id,
       resource: resource,
       event: event
     };

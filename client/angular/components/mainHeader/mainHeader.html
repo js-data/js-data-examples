@@ -13,6 +13,9 @@
         <li data-ng-class="{ active: !path }">
           <a href="/">Home</a>
         </li>
+        <li data-ng-class="{ active: path === 'users' }">
+          <a href="/users">Users</a>
+        </li>
         <li data-ng-class="{ active: path === 'posts' }">
           <a href="/posts">Posts</a>
         </li>
@@ -20,7 +23,9 @@
           <a href="" data-ng-click="login()">Login with Github</a>
         </li>
         <li data-ng-if="loggedInUser">
-          <a href="">Hi <strong data-ng-bind="loggedInUser.displayName || loggedInUser.username"></strong>!</a>
+          <a data-ng-href="/users/{{ loggedInUser.id }}">
+            Hi <strong data-ng-bind="loggedInUser.displayName || loggedInUser.username"></strong>!
+          </a>
         </li>
       </ul>
 

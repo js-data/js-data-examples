@@ -2,7 +2,9 @@
   <h1 class="page-header">
     Posts <a class="btn btn-xs" href="/posts/new">New Post</a>
   </h1>
-  <div data-ng-repeat="post in posts track by post.id">
-    <a data-ng-href="/post/{{ post.id }}">{{ post.title }}</a> <small class="pull-right" data-ng-bind="post.created | date:'shortDate'"></small>
+
+  <div data-ng-repeat="post in PostsCtrl.posts track by post.id">
+    <a data-ng-href="/posts/{{ post.id }}" data-ng-bind="post.title"></a>
+    <small class="pull-right" data-ng-bind="post.created | date:'shortDate'"></small>
   </div>
 </div>

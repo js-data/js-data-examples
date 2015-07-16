@@ -8,23 +8,24 @@ var container = dependable.container();
 // Load and register app config
 container.register('config', function () {
   return {
-    PORT: process.env.PORT,
+    PORT: process.env.PORT || 3000,
 
-    // Rethinkdb configuration
-    DB_HOST: process.env.DB_HOST,
-    DB_PORT: process.env.DB_PORT,
-    DB_DATABASE: process.env.DB_DATABASE,
-    DB_USER: process.env.DB_USER,
-    DB_PASSWORD: process.env.DB_PASSWORD,
+    // database configuration
+    DB_CLIENT: process.env.DB_CLIENT || 'mysql', // or "pg" or "sqlite3"
+    DB_HOST: process.env.DB_HOST || '127.0.0.1',
+    DB_PORT: process.env.DB_PORT || 3306,
+    DB_DATABASE: process.env.DB_DATABASE || 'jsdata',
+    DB_USER: process.env.DB_USER || 'root',
+    DB_PASSWORD: process.env.DB_PASSWORD || '',
 
     // Login won't work without these
-    GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID,
-    GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
+    GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID || '',
+    GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET || '',
 
-    GITHUB_CALLBACK_URL: process.env.GITHUB_CALLBACK_URL,
+    GITHUB_CALLBACK_URL: process.env.GITHUB_CALLBACK_URL || 'http://127.0.0.1:3000/auth/github/callback',
 
     // Default to using the js-data + angular example for the client.
-    PUBLIC_PATH: process.env.PUBLIC_PATH
+    PUBLIC_PATH: process.env.PUBLIC_PATH || '../../../client/angular'
   };
 });
 
@@ -42,13 +43,17 @@ container.register('passport', function () {
 
 // Create and register a js-data-sql adapter with the container
 container.register('sqlAdapter', function (config) {
+  console.log(JSON.stringify(config, null, 2));
   var DSSqlAdapter = require('js-data-sql');
   return new DSSqlAdapter({
-    host: config.DB_HOST,
-    port: config.DB_PORT,
-    db: config.DB_DATABASE,
-    min: 10,
-    max: 50
+    client: config.DB_CLIENT,
+    connection: {
+      host: config.DB_HOST,
+      user: config.DB_USER,
+      password: config.DB_PASSWORD,
+      database: config.DB_DATABASE,
+      port: config.DB_PORT
+    }
   });
 });
 
@@ -58,8 +63,9 @@ container.register('query', function (sqlAdapter) {
 });
 
 // Register the a new data store with the container
-container.register('DS', function (container, sqlAdapter) {
+container.register('DS', function (Promise, container, sqlAdapter) {
   var JSData = require('js-data');
+  JSData.DSUtils.Promise = Promise;
   var store = new JSData.DS({
     // Let's enable caching, which will greatly speed up reads and
     // because we're only running one instance of this app

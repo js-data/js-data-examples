@@ -1,0 +1,10 @@
+<div>
+  <h1 class="page-header">
+    Users
+  </h1>
+
+  <div data-ng-repeat="user in UsersCtrl.users track by user.id">
+    <a data-ng-href="/users/{{ user.id }}" data-ng-bind="user.name"></a>
+    <small class="pull-right" data-ng-bind="user.username"></small>
+  </div>
+</div>
