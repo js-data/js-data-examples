@@ -9,16 +9,6 @@ angular.module('app').config(function ($routeProvider, isLoggedInProvider, logge
         loggedInUser: loggedInUserProvider.$get
       }
     })
-    .when('/posts', {
-      templateUrl: 'routes/posts/posts.html',
-      controller: 'PostsCtrl',
-      controllerAs: 'PostsCtrl',
-      resolve: {
-        posts: function (Post) {
-          return Post.findAll();
-        }
-      }
-    })
     .when('/posts/:id', {
       templateUrl: 'routes/posts/post.html',
       controller: 'PostCtrl',
@@ -31,6 +21,16 @@ angular.module('app').config(function ($routeProvider, isLoggedInProvider, logge
           return Comment.findAll({
             post_id: $route.current.params.id
           });
+        }
+      }
+    })
+    .when('/posts', {
+      templateUrl: 'routes/posts/posts.html',
+      controller: 'PostsCtrl',
+      controllerAs: 'PostsCtrl',
+      resolve: {
+        posts: function (Post) {
+          return Post.findAll();
         }
       }
     });

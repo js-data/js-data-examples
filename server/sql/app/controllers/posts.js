@@ -1,4 +1,4 @@
-module.exports = function (Post, mout) {
+module.exports = function (Post) {
 
   return {
     /**

@@ -67,10 +67,9 @@ container.register('DS', function (Promise, container, sqlAdapter) {
   var JSData = require('js-data');
   JSData.DSUtils.Promise = Promise;
   var store = new JSData.DS({
-    // Let's enable caching, which will greatly speed up reads and
-    // because we're only running one instance of this app
-    cacheResponse: true,
-    bypassCache: false,
+    cacheResponse: false,
+    bypassCache: true,
+    linkRelations: false,
 
     // Because
     upsert: false,

@@ -129,12 +129,6 @@ exports.createServer = function () {
     /*******************************/
     /********** users **************/
     /*******************************/
-    app.route('/api/users')
-      .get(safeCall(users.findAll));
-
-    app.route('/api/users/:id')
-      .get(safeCall(users.findOneById));
-
     app.get('/api/users/loggedInUser', function (req, res) {
       if (req.isAuthenticated()) {
         return res.json(req.user);
@@ -142,6 +136,12 @@ exports.createServer = function () {
         res.send();
       }
     });
+
+    app.route('/api/users')
+      .get(safeCall(users.findAll));
+
+    app.route('/api/users/:id')
+      .get(safeCall(users.findOneById));
 
     // Normally I would have a bunch of user-related routes, but I'm
     // just using Passport.js + Github for simplicity in the example
