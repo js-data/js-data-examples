@@ -29,15 +29,15 @@ var UsersView = React.createClass({
   render: function () {
     return (
       <div>
-        <h1 class="page-header">
+        <h1 className="page-header">
           Users
         </h1>
 
         {this.state.users.map(function (user) {
           return (
             <div key={user.id}>
-              <a href={'/users/' + user.id}>{user.name}</a>
-              <small class="pull-right">{user.username}</small>
+              <Link to="user" params={{id: user.id}}>{user.name}</Link>
+              <small className="pull-right">{user.username}</small>
             </div>
           );
         })}

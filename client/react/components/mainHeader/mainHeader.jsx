@@ -33,7 +33,6 @@ var MainHeader = React.createClass({
   render: function () {
     var loggedInUser = User.loggedInUser;
     var path = window.location.pathname;
-    console.log(path);
     var loginLink = loggedInUser ? (
       <li>
         <a href={'/users/' + loggedInUser.id}>

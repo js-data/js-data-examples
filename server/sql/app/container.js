@@ -61,8 +61,14 @@ container.register('query', function (sqlAdapter) {
   return sqlAdapter.query;
 });
 
+// Automatically load and register the modules in these folders
+container.load(path.join(__dirname, './controllers'));
+container.load(path.join(__dirname, './middleware'));
+container.load(path.join(__dirname, './models'));
+container.load(path.join(__dirname, './lib'));
+
 // Register the a new data store with the container
-container.register('DS', function (Promise, container, sqlAdapter) {
+container.register('DS', function (Promise, container, sqlAdapter, messageService) {
   var JSData = require('js-data');
   JSData.DSUtils.Promise = Promise;
   var store = new JSData.DS({
@@ -82,7 +88,33 @@ container.register('DS', function (Promise, container, sqlAdapter) {
     // Here you could set "log" to a function of your own, for
     // debugging or to hook it into your own logging code.
     // You would the same with the "error" option.
-    log: false
+    log: false,
+
+    beforeCreate: function (Resource, instance, cb) {
+      instance.created_at = new Date();
+      instance.updated_at = new Date();
+      return cb(null, instance);
+    },
+
+    beforeUpdate: function (Resource, instance, cb) {
+      instance.updated_at = new Date();
+      return cb(null, instance);
+    },
+
+    afterCreate: function (Resource, instance, cb) {
+      messageService.sendCreateMessage(Resource.name, instance);
+      cb(null, instance);
+    },
+
+    afterUpdate: function (Resource, instance, cb) {
+      messageService.sendUpdateMessage(Resource.name, instance);
+      cb(null, instance);
+    },
+
+    afterDestroy: function (Resource, instance, cb) {
+      messageService.sendDestroyMessage(Resource.name, instance);
+      cb(null, instance);
+    }
   });
 
   // Register the sql adapter as the default adapter
@@ -90,12 +122,6 @@ container.register('DS', function (Promise, container, sqlAdapter) {
 
   return store;
 });
-
-// Automatically load and register the modules in these folders
-container.load(path.join(__dirname, './controllers'));
-container.load(path.join(__dirname, './middleware'));
-container.load(path.join(__dirname, './models'));
-container.load(path.join(__dirname, './lib'));
 
 // Register the container with the container, useful for when you need dynamically resolve a dependency or avoid a circular dependency
 container.register('container', function () {

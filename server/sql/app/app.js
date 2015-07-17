@@ -157,14 +157,13 @@ exports.createServer = function () {
       req.logout();
       res.redirect('/');
     });
-    app.post('/api/socket.io/', function (req, res, next) {
-      next();
-    });
 
     // Redirect all others to the index (HTML5 history)
     app.get('*', function (req, res, next) {
       if (req.originalUrl.indexOf('socket.io') === -1) {
         renderIndex(req, res, next);
+      } else {
+        next();
       }
     });
 
@@ -183,10 +182,10 @@ if (module === require.main || process.env.NODE_ENV === 'prod') {
   var server = http.createServer(app);
   var config = container.get('config');
 
-  server.listen(config.PORT);
-
   // Add a socket server to be used as a message bus for the clients
   var io = require('socket.io').listen(server);
+
+  server.listen(config.PORT);
 
   container.register('io', function () {
     return io;

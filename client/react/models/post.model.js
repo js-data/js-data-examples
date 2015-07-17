@@ -7,6 +7,12 @@ var Post = store.defineResource({
         localField: 'user',
         localKey: 'owner_id'
       }
+    },
+    hasMany: {
+      comment: {
+        localField: 'comments',
+        foreignKey: 'post_id'
+      }
     }
   }
 });

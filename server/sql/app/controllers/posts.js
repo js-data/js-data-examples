@@ -14,7 +14,7 @@ module.exports = function (Post) {
      * GET /posts/:id
      */
     findOneById: function (req, res) {
-      return Post.find(req.params.id, {'with': ['user']}).then(function (post) {
+      return Post.find(req.params.id, {'with': ['user', 'comment']}).then(function (post) {
         return res.status(200).send(post).end();
       });
     },

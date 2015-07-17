@@ -10,15 +10,6 @@ module.exports = function (container) {
       resource: resource,
       event: event
     };
-    if (instance.parentType) {
-      message.parentType = instance.parentType;
-    }
-    if (instance.parentId) {
-      message.parentId = instance.parentId;
-    }
-    if (instance.lessonId) {
-      message.lessonId = instance.lessonId;
-    }
     io.sockets.emit(event, message);
   }
 
