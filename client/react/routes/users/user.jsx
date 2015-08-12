@@ -31,9 +31,7 @@ var UserView = React.createClass({
    */
   getState: function (params) {
     return {
-      user: User.get(params.id) || {},
-      posts: Post.filter({owner_id: params.id}),
-      comments: Comment.filter({owner_id: params.id})
+      user: User.get(params.id) || {}
     };
   },
   render: function () {
@@ -47,7 +45,7 @@ var UserView = React.createClass({
           <div className="col-md-6">
             <h3>Posts</h3>
 
-            {this.state.posts.map(function (post) {
+            {this.state.user.posts.map(function (post) {
               return (
                 <div>
                   <Link to="post" params={{id: post.id}}>{post.title}</Link>
@@ -61,7 +59,7 @@ var UserView = React.createClass({
           <div className="col-md-6">
             <h3>Comments</h3>
 
-            {this.state.comments.map(function (comment) {
+            {this.state.user.comments.map(function (comment) {
               return (
                 <div>
                   <Link to="post" params={{id: comment.post_id}}>Go to post</Link>&nbsp;
