@@ -12,7 +12,7 @@ var container = require('./container');
 exports.createServer = function () {
 
   // Bootstrap the application, injecting a bunch of dependencies
-  return container.resolve(function (User, safeCall, users, posts, comments, errorHandler, queryRewrite, passport, config) {
+  return container.resolve(function (User, safeCall, users, posts, comments, errorHandler, queryRewrite, rewriteRelations, passport, config) {
     var app = express();
 
     // Simple route middleware to ensure user is authenticated.
@@ -79,6 +79,7 @@ exports.createServer = function () {
 
     // middleware
     app.use(queryRewrite);
+    app.use(rewriteRelations);
     app.use(bodyParser.json());
     app.use(cookieParser());
     app.use(bodyParser.urlencoded({extended: true}));
