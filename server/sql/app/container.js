@@ -74,6 +74,9 @@ container.register('DS', function (Promise, container, sqlAdapter, messageServic
   var store = new JSData.DS({
     cacheResponse: false,
     bypassCache: true,
+
+    // Important: If your relationships stop working, you might
+    // have deleted this.
     linkRelations: false,
 
     // Because
