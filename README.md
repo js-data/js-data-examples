@@ -12,7 +12,9 @@ The Grunt tasks in this repository allow you to start various combinations of fr
 
 ## Grunt Tasks
 
-TODO
+### Angular client
+
+Inside js-data-examples/client/angular run: grunt serve
 
 ## Frontend Examples
 
