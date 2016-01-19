@@ -1,0 +1,14 @@
+{
+  "name": "angular.js.data",
+  "version": "0.0.1",
+  "devDependencies": {
+    "grunt": "~0.4",
+    "grunt-browser-output": "0.1.0",
+    "grunt-contrib-clean": "~0.5",
+    "grunt-contrib-concat": "~0.3",
+    "grunt-contrib-connect": "~0.6",
+    "grunt-contrib-watch": "~0.6",
+    "jshint-stylish": "^2.1.0",
+    "load-grunt-tasks": "~0.2"
+  }
+}
