@@ -14,7 +14,7 @@ The Grunt tasks in this repository allow you to start various combinations of fr
 
 ### Angular client
 
-Inside js-data-examples/client/angular run: grunt serve
+Inside js-data-examples/client/angular run: `grunt serve`
 
 ## Frontend Examples
 
