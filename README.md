@@ -2,53 +2,33 @@
 
 # js-data-examples
 
-This repository contains both client-side and server-side example apps that use [js-data](http://www.js-data.io/).
+An example blog application.
 
-The `client/` folder contains frontend examples of using js-data with various frameworks and frontend js-data adapters.
+There are multiple client apps and server apps to choose from. To run the app:
 
-The `server/` folder contains backend examples of using js-data with various frameworks and backend js-data adapters.
+1. Pick a server
+1. `cd server/<server-name>`
+1. `npm start -- <client-name>`
 
-The Grunt tasks in this repository allow you to start various combinations of frontend and backend examples.
+## Clients
 
-## Grunt Tasks
+- [x] - [Angular 1](https://github.com/js-data/js-data-examples/tree/master/client/angular)
+- [ ] - Angular 2
+- [x] - [React](https://github.com/js-data/js-data-examples/tree/master/client/react)
+- [ ] - Ember
+- [ ] - Vue
 
-### Angular client
+## Servers
 
-Inside js-data-examples/client/angular run: `grunt serve`
-
-## Frontend Examples
-
-- [x] - [js-data + js-data-angular + Angular.js](https://github.com/js-data/js-data-examples/tree/master/client/angular)
-- [ ] - js-data + js-data-angular + js-data-localstorage + Angular.js
-- [ ] - js-data + js-data-angular + js-data-firebase + Angular.js
-- [ ] - js-data + js-data-http + Ember.js
-- [ ] - js-data + js-data-http + Vue.js
-- [x] - [js-data + js-data-http + React.js](https://github.com/js-data/js-data-examples/tree/master/client/react)
-
-## Backend Examples
-
-- [x] - [js-data + js-data-rethinkdb + Express.js](https://github.com/js-data/js-data-examples/tree/master/server/rethinkdb)
-- [ ] - js-data + js-data-rethinkdb + js-data-redis + Express.js
-- [ ] - js-data + js-data-mongodb + Express.js]()
-- [x] - [js-data + js-data-sql + Express.js + MySQL/PostgreSQL](https://github.com/js-data/js-data-examples/tree/master/server/sql)
-
-## Community
-
-[Explore the Community](http://js-data.io/docs/community).
-
-## Support
-
-[Find out how to Get Support](http://js-data.io/docs/support).
-
-## Contributing
-
-[Read the Contributing Guide](http://js-data.io/docs/contributing).
+- [x] - [RethinkDB](https://github.com/js-data/js-data-examples/tree/master/server/rethinkdb)
+- [ ] - MongoDB
+- [x] - [SQL (MySql/Postgesql/SQLite](https://github.com/js-data/js-data-examples/tree/master/server/sql)
 
 ## License
 
 The MIT License (MIT)
 
-Copyright (c) 2014-2016 Jason Dobry
+Copyright (c) 2014-2016 js-data-examples authors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

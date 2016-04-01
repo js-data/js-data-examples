@@ -13,7 +13,4 @@ module.exports = {
   GITHUB_CLIENT_SECRET: '',
 
   GITHUB_CALLBACK_URL: '',
-
-  // Default to using the js-data + angular example for the client.
-  PUBLIC_PATH: '../../../client/angular'
 };

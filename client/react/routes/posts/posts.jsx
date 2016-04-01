@@ -34,7 +34,7 @@ var PostsView = React.createClass({
     return (
       <div>
         <h1 className="page-header">
-          Posts {link}
+          js-data-examples blog
         </h1>
 
         {this.state.posts.map(function (post) {
