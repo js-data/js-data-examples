@@ -1,6 +1,6 @@
 import {Component,Input} from 'angular2/core'
 import {Router, RouteParams} from 'angular2/router'
-import {store} from './store'
+import {store, IPost} from './store'
 
 @Component({
   selector: 'edit',
@@ -25,7 +25,7 @@ import {store} from './store'
   `
 })
 export class EditComponent {
-  post: any = {}
+  post: IPost = <IPost>store.createRecord('post')
 
   constructor (private _router: Router, private _routeParams: RouteParams) {
     const id = _routeParams.get('id')

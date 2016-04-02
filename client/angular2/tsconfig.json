@@ -14,9 +14,7 @@
   ],
   "files": [
     "typings/main.d.ts",
-    "src/app.ts",
-    "src/index.ts",
-    "src/vendor.ts"
+    "src/index.ts"
   ],
   "compileOnSave": false,
   "buildOnSave": false

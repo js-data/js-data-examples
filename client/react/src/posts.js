@@ -7,14 +7,12 @@ const PAGE_SIZE = 5
 export default class Posts extends React.Component {
   constructor (props) {
     super(props)
-    const page = 1
     // Fetch all blog posts
     store.findAll('post', {
-      limit: PAGE_SIZE,
-      offset: PAGE_SIZE * (page - 1)
+      limit: PAGE_SIZE
     })
     this.state = this.getState()
-    this.state.page = page
+    this.state.page = 1
   }
   componentDidMount () { store.on('all', this.onChange, this) }
   componentWillUnmount () { store.off('all', this.onChange, this) }

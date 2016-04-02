@@ -4,25 +4,46 @@
 
 An example blog application.
 
-There are multiple client apps and server apps to choose from. To run the app:
+## Run the app
 
-1. Pick a server
-1. `cd server/<server-name>`
-1. `npm start -- <client-name>`
+### Pick a client
+
+1. `cd client`
+1. Pick a client
+1. `cd <chosen-client>`
+1. `npm install`
+1. `npm run bundle`
+
+### Start the server
+
+1. `cd server`
+1. `cp config.default.js config.js`
+1. Edit `config.js` as appropriate
+1. `npm install`
+  1. And if MongoDB also run: `npm install mongodb bson`
+  1. And if MySQL also run: `npm install knex mysql`
+  1. And if Postgres also run: `npm install knex pg`
+  1. And if Rethinkdb also run: `npm install rethinkdbdash`
+  1. And if Sqlite also run: `npm install knex sqlite3`
+1. `npm start`
 
 ## Clients
 
-- [x] - [Angular 1](https://github.com/js-data/js-data-examples/tree/master/client/angular)
-- [ ] - Angular 2
-- [x] - [React](https://github.com/js-data/js-data-examples/tree/master/client/react)
+- [x] - [Angular 1.x](https://github.com/js-data/js-data-examples/tree/master/client/angular1)
+- [x] - [Angular 2.x](https://github.com/js-data/js-data-examples/tree/master/client/angular2)
+- [ ] - Aurelia
 - [ ] - Ember
+- [ ] - Mithril
+- [x] - [React](https://github.com/js-data/js-data-examples/tree/master/client/react)
 - [ ] - Vue
 
 ## Servers
 
-- [x] - [RethinkDB](https://github.com/js-data/js-data-examples/tree/master/server/rethinkdb)
 - [ ] - MongoDB
-- [x] - [SQL (MySql/Postgesql/SQLite](https://github.com/js-data/js-data-examples/tree/master/server/sql)
+- [ ] - MySQL
+- [ ] - Postgres
+- [x] - [RethinkDB](https://github.com/js-data/js-data-examples/tree/master/server/rethinkdb)
+- [ ] - Sqlite
 
 ## License
 

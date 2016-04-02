@@ -1,5 +1,6 @@
 import {Component,Input} from 'angular2/core'
 import {ROUTER_DIRECTIVES} from 'angular2/router'
+import {IUser} from './store'
 
 @Component({
   selector: 'header',
@@ -44,5 +45,5 @@ import {ROUTER_DIRECTIVES} from 'angular2/router'
   directives: [ROUTER_DIRECTIVES]
 })
 export class HeaderComponent {
-  @Input() loggedInUser: any
+  @Input() loggedInUser: IUser
 }

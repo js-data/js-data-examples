@@ -4,7 +4,9 @@ import {HeaderComponent} from './header'
 import {PostsComponent} from './posts'
 import {PostComponent} from './post'
 import {EditComponent} from './edit'
-import {UserMapper} from './store'
+import {store, IUser, IUserMapper} from './store'
+
+const UserMapper = <IUserMapper>store.getMapper('user')
 
 @Component({
   selector: '#app',
@@ -24,9 +26,10 @@ import {UserMapper} from './store'
   { path: '/posts/:id/edit', component: EditComponent, name: 'Edit' }
 ])
 export class AppComponent {
-  loggedInUser: any
+  loggedInUser: IUser
 
   constructor () {
+    // Fetch the current user, if any
     UserMapper.getLoggedInUser().then((user) => {
       this.loggedInUser = user
     })

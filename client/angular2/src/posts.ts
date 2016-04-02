@@ -1,6 +1,6 @@
 import {Component,Input} from 'angular2/core'
 import {ROUTER_DIRECTIVES} from 'angular2/router'
-import {store} from './store'
+import {store, IPost} from './store'
 
 @Component({
   selector: 'posts',
@@ -13,12 +13,12 @@ import {store} from './store'
   directives: [ROUTER_DIRECTIVES]
 })
 export class PostsComponent {
-  posts: any[]
+  posts: IPost[]
 
   constructor () {
     store.findAll('post').then((posts) => {
       this.posts = posts
-      store.on('all', this.onChange.bind(this))
+      store.on('all', this.onChange, this)
     })
   }
   ngOnDestroy () { store.off('all', this.onChange) }
