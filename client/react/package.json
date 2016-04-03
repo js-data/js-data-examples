@@ -28,8 +28,8 @@
     "webpack": "^1.12.14"
   },
   "dependencies": {
-    "js-data": "^3.0.0-alpha.24",
-    "js-data-http": "^3.0.0-alpha.9",
+    "js-data": "^3.0.0-alpha.28",
+    "js-data-http": "^3.0.0-alpha.10",
     "react": "^0.14.8",
     "react-dom": "^0.14.8",
     "react-router": "^2.0.1"

@@ -19,6 +19,8 @@ const middleware = require('./middleware')
 const store = require('./store').store
 const app = express()
 
+const PAGE_SIZE = 5
+
 // Application middleware
 app.use(require('body-parser').json())
 app.use(require('express-session')({ secret: 'keyboard cat' }))
@@ -36,13 +38,29 @@ app.get('/api/users/loggedInUser', function (req, res) {
 })
 
 app.get('/api/posts', utils.makeSafe(function (req, res, next) {
-  return store.findAll('post', req.query, req.jsdataOptions).then(res.send.bind(res))
+  req.query.limit = req.query.limit === undefined ? PAGE_SIZE : req.query.limit
+  req.query.offset = req.query.offset === undefined ? 0 : req.query.offset
+  const currentPage = (req.query.offset / PAGE_SIZE) + 1
+
+  Promise.all([
+    store.count('post'),
+    store.findAll('post', req.query)
+  ]).spread(function (totalNumPosts, posts) {
+    return {
+      page: currentPage,
+      data: posts,
+      total: totalNumPosts
+    }
+  }).then(res.send.bind(res))
 }))
 app.post('/api/posts', utils.makeSafe(function (req, res, next) {
   return store.create('post', {
     title: req.body.title,
     content: req.body.content
   }).then(res.send.bind(res))
+}))
+app.get('/api/posts/:id', utils.makeSafe(function (req, res, next) {
+  return store.find('post', req.params.id, { with: ['comment'] }).then(res.send.bind(res))
 }))
 
 app.get('/auth/github', middleware.passport.authenticate('github'))

@@ -55,6 +55,18 @@ exports.queryRewrite = function (req, res, next) {
     if (req.query.where) {
       req.query.where = JSON.parse(req.query.where)
     }
+    if (req.query.orderBy || req.query.sort) {
+      const orderBy = req.query.orderBy || req.query.sort
+      if (orderBy.length) {
+        req.query.orderBy = orderBy.map(function (clause) {
+          if (typeof clause === 'string') {
+            return JSON.parse(clause)
+          }
+          return clause
+        })
+        req.query.sort = undefined
+      }
+    }
     next()
   } catch (err) {
     next(err)

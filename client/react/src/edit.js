@@ -37,7 +37,7 @@ export default class Edit extends React.Component {
       promise = store.update('post', id, props)
     }
     promise.then((post) => {
-      this.context.router.push(`/post/${post.id}`)
+      this.context.router.push(`/posts/${post.id}`)
     })
   }
   render () {

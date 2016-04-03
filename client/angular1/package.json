@@ -1,5 +1,5 @@
 {
-  "name": "js-data-examples-angular",
+  "name": "js-data-examples-angular1",
   "description": "Angular 1.x client for js-data-examples",
   "version": "2.0.0-alpha.1",
   "homepage": "https://github.com/js-data/js-data-examples",
@@ -29,7 +29,7 @@
   "dependencies": {
     "angular": "^1.5.3",
     "angular-route": "^1.5.3",
-    "js-data": "^3.0.0-alpha.25",
-    "js-data-http": "^3.0.0-alpha.9"
+    "js-data": "^3.0.0-alpha.28",
+    "js-data-http": "^3.0.0-alpha.10"
   }
 }

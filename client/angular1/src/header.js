@@ -34,11 +34,20 @@ const config = {
               Hi <strong>{{loggedInUser.displayName || loggedInUser.username}}</strong>!
             </a>
           </li>
-          <li data-ng-if="!loggedInUser"><a href="/auth/github">Login with Github</a></li>
+          <li data-ng-if="!loggedInUser">
+            <a href="" data-ng-click="HeaderCtrl.login($event)">Login with Github</a>
+          </li>
         </ul>
       </div>
     </div>
-  </div>`
+  </div>`,
+  controllerAs: 'HeaderCtrl',
+  controller () {
+    this.login = function ($event) {
+      $event.preventDefault()
+      window.location = '/auth/github'
+    }
+  }
 }
 
 export const Header = function () {
