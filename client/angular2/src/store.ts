@@ -1,10 +1,12 @@
 // DataStore is mostly recommended for use in the browser
 import {
   DataStore,
+  Mapper,
+  Record,
   Schema,
   utils
 } from 'js-data'
-const HttpAdapter = require('js-data-http')
+import {HttpAdapter} from 'js-data-http'
 
 declare var require: any
 
@@ -42,7 +44,7 @@ export const store = new DataStore({
 
 store.registerAdapter('http', adapter, { default: true })
 
-export interface IUser extends JSData.Record {
+export interface IUser extends Record {
   id: string|number
   displayName: string
   username: string
@@ -50,7 +52,7 @@ export interface IUser extends JSData.Record {
   updated_at: string|Date
 }
 
-export interface IUserMapper extends JSData.Mapper {
+export interface IUserMapper extends Mapper {
   loggedInUser: IUser
   getLoggedInUser(): Promise<IUser>
 }
@@ -76,7 +78,7 @@ store.defineMapper('user', {
   }
 })
 
-export interface IPost extends JSData.Record {
+export interface IPost extends Record {
   id: string|number
   title: string
   content: string
@@ -106,7 +108,7 @@ store.defineMapper('post', {
   }
 })
 
-export interface IComment extends JSData.Record {
+export interface IComment extends Record {
   id: string|number
   user_id: string
   post_id: string
