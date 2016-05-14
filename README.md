@@ -2,53 +2,54 @@
 
 # js-data-examples
 
-This repository contains both client-side and server-side example apps that use [js-data](http://www.js-data.io/).
+An example blog application.
 
-The `client/` folder contains frontend examples of using js-data with various frameworks and frontend js-data adapters.
+## Run the app
 
-The `server/` folder contains backend examples of using js-data with various frameworks and backend js-data adapters.
+### Pick a client
 
-The Grunt tasks in this repository allow you to start various combinations of frontend and backend examples.
+1. `cd client`
+1. Pick a client
+1. `cd <chosen-client>`
+1. `npm install`
+1. `npm run bundle`
 
-## Grunt Tasks
+### Start the server
 
-### Angular client
+1. `cd server`
+1. `cp config.default.js config.js`
+1. Edit `config.js` as appropriate
+1. `npm install`
+  1. And if MongoDB also run: `npm install mongodb bson`
+  1. And if MySQL also run: `npm install knex mysql`
+  1. And if Postgres also run: `npm install knex pg`
+  1. And if Rethinkdb also run: `npm install rethinkdbdash`
+  1. And if Sqlite also run: `npm install knex sqlite3`
+1. `npm start`
 
-Inside js-data-examples/client/angular run: `grunt serve`
+## Clients
 
-## Frontend Examples
+- [x] - [Angular 1.x](https://github.com/js-data/js-data-examples/tree/master/client/angular1)
+- [x] - [Angular 2.x](https://github.com/js-data/js-data-examples/tree/master/client/angular2)
+- [ ] - Aurelia
+- [ ] - Ember
+- [ ] - Mithril
+- [x] - [React](https://github.com/js-data/js-data-examples/tree/master/client/react)
+- [ ] - Vue
 
-- [x] - [js-data + js-data-angular + Angular.js](https://github.com/js-data/js-data-examples/tree/master/client/angular)
-- [ ] - js-data + js-data-angular + js-data-localstorage + Angular.js
-- [ ] - js-data + js-data-angular + js-data-firebase + Angular.js
-- [ ] - js-data + js-data-http + Ember.js
-- [ ] - js-data + js-data-http + Vue.js
-- [x] - [js-data + js-data-http + React.js](https://github.com/js-data/js-data-examples/tree/master/client/react)
+## Servers
 
-## Backend Examples
-
-- [x] - [js-data + js-data-rethinkdb + Express.js](https://github.com/js-data/js-data-examples/tree/master/server/rethinkdb)
-- [ ] - js-data + js-data-rethinkdb + js-data-redis + Express.js
-- [ ] - js-data + js-data-mongodb + Express.js]()
-- [x] - [js-data + js-data-sql + Express.js + MySQL/PostgreSQL](https://github.com/js-data/js-data-examples/tree/master/server/sql)
-
-## Community
-
-[Explore the Community](http://js-data.io/docs/community).
-
-## Support
-
-[Find out how to Get Support](http://js-data.io/docs/support).
-
-## Contributing
-
-[Read the Contributing Guide](http://js-data.io/docs/contributing).
+- [ ] - MongoDB
+- [ ] - MySQL
+- [ ] - Postgres
+- [x] - [RethinkDB](https://github.com/js-data/js-data-examples/tree/master/server/rethinkdb)
+- [ ] - Sqlite
 
 ## License
 
 The MIT License (MIT)
 
-Copyright (c) 2014-2016 Jason Dobry
+Copyright (c) 2014-2016 js-data-examples authors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

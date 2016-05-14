@@ -1,0 +1,30 @@
+{
+  "name": "js-data-examples-server",
+  "description": "Backend for js-data-examples",
+  "version": "2.0.0-alpha.1",
+  "homepage": "https://github.com/js-data/js-data-examples",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/js-data/js-data-examples.git"
+  },
+  "author": "js-data-examples project authors",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "bluebird": "^3.3.4",
+    "body-parser": "^1.13.2",
+    "cookie-parser": "^1.4.1",
+    "express": "^4.13.4",
+    "express-session": "^1.13.0",
+    "js-data": "^3.0.0-alpha.21",
+    "js-data-rethinkdb": "^3.0.0-alpha.13",
+    "nconf": "^0.8.4",
+    "passport": "^0.3.2",
+    "passport-github": "^1.1.0",
+    "rethinkdbdash": "^2.2.18",
+    "source-map-support": "^0.4.0"
+  }
+}

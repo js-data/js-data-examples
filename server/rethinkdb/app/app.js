@@ -190,13 +190,5 @@ if (module === require.main || process.env.NODE_ENV === 'prod') {
   var app = exports.createServer();
   var server = http.createServer(app);
   var config = container.get('config');
-
   server.listen(config.PORT);
-
-  // Add a socket server to be used as a message bus for the clients
-  var io = require('socket.io').listen(server);
-
-  container.register('io', function () {
-    return io;
-  });
 }
