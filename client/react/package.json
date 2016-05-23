@@ -1,7 +1,7 @@
 {
   "name": "js-data-examples-react",
   "description": "React client for js-data-examples",
-  "version": "2.0.0-alpha.1",
+  "version": "3.0.0-alpha.1",
   "homepage": "https://github.com/js-data/js-data-examples",
   "repository": {
     "type": "git",

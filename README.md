@@ -2,7 +2,7 @@
 
 # js-data-examples
 
-An example blog application.
+An example blog application using js-data v3.
 
 ## Run the app
 
