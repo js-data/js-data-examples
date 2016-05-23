@@ -19,12 +19,13 @@
     "cookie-parser": "^1.4.1",
     "express": "^4.13.4",
     "express-session": "^1.13.0",
-    "js-data": "^3.0.0-alpha.21",
-    "js-data-rethinkdb": "^3.0.0-alpha.13",
+    "js-data": "^3.0.0-beta.6",
+    "js-data-mongodb": "^1.0.0-beta.1",
+    "js-data-rethinkdb": "^3.0.0-beta.6",
+    "js-data-sql": "^1.0.0-beta.3",
     "nconf": "^0.8.4",
     "passport": "^0.3.2",
     "passport-github": "^1.1.0",
-    "rethinkdbdash": "^2.2.18",
     "source-map-support": "^0.4.0"
   }
 }

@@ -4,6 +4,8 @@
 
 An example blog application using js-data v3.
 
+Relation and schema definitions are shared between the client and the server.
+
 ## Run the app
 
 ### Pick a client
