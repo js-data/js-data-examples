@@ -1,5 +1,5 @@
-import {Component,Input} from 'angular2/core'
-import {Router, RouteParams} from 'angular2/router'
+import {Component,Input} from '@angular/core'
+import {Router, RouteParams} from '@angular/router-deprecated'
 import {store, IPost} from './store'
 
 @Component({

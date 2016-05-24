@@ -5,14 +5,10 @@ import '../node_modules/zone.js/dist/zone'
 // import 'zone.js'
 import 'reflect-metadata'
 
-import {bootstrap} from 'angular2/platform/browser'
-import {provide} from 'angular2/core'
-import {
-  ROUTER_PROVIDERS,
-  APP_BASE_HREF,
-  LocationStrategy,
-  HashLocationStrategy
-} from 'angular2/router'
+import {bootstrap} from '@angular/platform-browser-dynamic'
+import {provide} from '@angular/core'
+import {LocationStrategy, HashLocationStrategy} from '@angular/common'
+import {ROUTER_PROVIDERS} from '@angular/router-deprecated'
 import {AppComponent} from './app'
 
 bootstrap(AppComponent, [
