@@ -1,0 +1,1 @@
+/// <reference path="firebase3/firebase3.d.ts" />

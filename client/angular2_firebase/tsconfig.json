@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "removeComments": false,
+    "noImplicitAny": false
+  },
+  "exclude": [
+    "node_modules"
+  ],
+  "files": [
+    "typings/main.d.ts",
+    "src/index.ts",
+    "manual_typings/firebase3/firebase3.d.ts"
+  ],
+  "compileOnSave": false,
+  "buildOnSave": false
+}
