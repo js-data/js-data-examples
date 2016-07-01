@@ -19,8 +19,8 @@ Relation and schema definitions are shared between the client and the server.
 ### Start the server
 
 1. `cd server`
-1. `cp config.default.js config.js`
-1. Edit `config.js` as appropriate
+1. `cp config.default.json config.json`
+1. Edit `config.json` as appropriate
 1. `npm install`
   1. And if MongoDB also run: `npm install mongodb bson`
   1. And if MySQL also run: `npm install knex mysql`
