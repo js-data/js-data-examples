@@ -5,7 +5,7 @@ import {
   utils
 } from 'js-data'
 import HttpAdapter from 'js-data-http'
-const schemas = require('../../../_shared/schemas')(Schema)
+import * as schemas from '../../../_shared/schemas'
 import * as relations from '../../../_shared/relations'
 
 const convertToDate = function (record) {
